@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 
-class TaskFormResult {
-  final String title;
+class PlateFormResult {
+  final String plate;
   final String description;
 
-  const TaskFormResult({
-    required this.title,
+  const PlateFormResult({
+    required this.plate,
     required this.description,
   });
 }
 
-class TaskFormDialog extends StatefulWidget {
-  const TaskFormDialog({super.key});
+class PlateFormDialog extends StatefulWidget {
+  const PlateFormDialog({super.key});
 
   @override
-  State<TaskFormDialog> createState() => _TaskFormDialogState();
+  State<PlateFormDialog> createState() => _PlateFormDialogState();
 }
 
-class _TaskFormDialogState extends State<TaskFormDialog> {
-  final _titleController = TextEditingController();
+class _PlateFormDialogState extends State<PlateFormDialog> {
+  final _plateController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _titleController.dispose();
+    _plateController.dispose();
     _descriptionController.dispose();
     super.dispose();
   }
@@ -34,8 +34,8 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
 
     Navigator.pop(
       context,
-      TaskFormResult(
-        title: _titleController.text.trim(),
+      PlateFormResult(
+        plate: _plateController.text.trim(),
         description: _descriptionController.text.trim(),
       ),
     );
@@ -44,20 +44,20 @@ class _TaskFormDialogState extends State<TaskFormDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Nueva tarea'),
+      title: const Text('Nueva placa'),
       content: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
-              controller: _titleController,
+              controller: _plateController,
               decoration: const InputDecoration(
-                labelText: 'Título',
+                labelText: 'Placa',
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Ingrese un título';
+                  return 'Ingrese una placa';
                 }
                 return null;
               },

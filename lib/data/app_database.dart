@@ -2,20 +2,20 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../models/task_model.dart';
+import '../models/plate_model.dart';
 
 part 'app_database.g.dart';
 
-class Tasks extends Table {
+class Plates extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get title => text()();
+  TextColumn get plate => text()();
   TextColumn get description => text()();
   BoolColumn get completed => boolean().withDefault(const Constant(false))();
   DateTimeColumn get updatedAt => dateTime()();
   BoolColumn get pendingSync => boolean().withDefault(const Constant(true))();
 }
 
-@DriftDatabase(tables: [Tasks])
+@DriftDatabase(tables: [Plates])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
@@ -24,7 +24,7 @@ class AppDatabase extends _$AppDatabase {
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
-      name: 'task_app_db',
+      name: 'plate_app_db',
       native: const DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
       ),
@@ -35,10 +35,10 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  TaskModel _mapTaskToModel(Task row) {
-    return TaskModel(
+  PlateModel _mapPlateToModel(Plate row) {
+    return PlateModel(
       id: row.id,
-      title: row.title,
+      plate: row.plate,
       description: row.description,
       completed: row.completed,
       updatedAt: row.updatedAt,
@@ -46,47 +46,47 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  Stream<List<TaskModel>> watchTasks() {
-    final query = select(tasks)
+  Stream<List<PlateModel>> watchPlates() {
+    final query = select(plates)
       ..orderBy([
         (t) => OrderingTerm.desc(t.updatedAt),
       ]);
 
     return query.watch().map(
-      (rows) => rows.map(_mapTaskToModel).toList(),
+      (rows) => rows.map(_mapPlateToModel).toList(),
     );
   }
 
-  Future<List<TaskModel>> getAllTasks() async {
-    final rows = await select(tasks).get();
-    return rows.map(_mapTaskToModel).toList();
+  Future<List<PlateModel>> getAllPlates() async {
+    final rows = await select(plates).get();
+    return rows.map(_mapPlateToModel).toList();
   }
 
-  Future<TaskModel> insertTask(TaskModel task) async {
-    final insertedId = await into(tasks).insert(
-      TasksCompanion.insert(
-        title: task.title,
-        description: task.description,
-        completed: Value(task.completed),
-        updatedAt: task.updatedAt,
-        pendingSync: Value(task.pendingSync),
+  Future<PlateModel> insertPlate(PlateModel plate) async {
+    final insertedId = await into(plates).insert(
+      PlatesCompanion.insert(
+        plate: plate.plate,
+        description: plate.description,
+        completed: Value(plate.completed),
+        updatedAt: plate.updatedAt,
+        pendingSync: Value(plate.pendingSync),
       ),
     );
 
-    return task.copyWith(id: insertedId);
+    return plate.copyWith(id: insertedId);
   }
 
-  Future<void> updateTask(TaskModel task) async {
-    if (task.id == null) return;
+  Future<void> updatePlate(PlateModel plate) async {
+    if (plate.id == null) return;
 
-    await update(tasks).replace(
-      Task(
-        id: task.id!,
-        title: task.title,
-        description: task.description,
-        completed: task.completed,
-        updatedAt: task.updatedAt,
-        pendingSync: task.pendingSync,
+    await update(plates).replace(
+      Plate(
+        id: plate.id!,
+        plate: plate.plate,
+        description: plate.description,
+        completed: plate.completed,
+        updatedAt: plate.updatedAt,
+        pendingSync: plate.pendingSync,
       ),
     );
   }
@@ -94,39 +94,41 @@ class AppDatabase extends _$AppDatabase {
   Future<void> toggleCompleted({
     required int id,
     required bool completed,
+    String? newDescription,
   }) async {
-    await (update(tasks)..where((t) => t.id.equals(id))).write(
-      TasksCompanion(
+    await (update(plates)..where((t) => t.id.equals(id))).write(
+      PlatesCompanion(
         completed: Value(completed),
+        description: newDescription != null ? Value(newDescription) : const Value.absent(),
         updatedAt: Value(DateTime.now()),
         pendingSync: const Value(true),
       ),
     );
   }
 
-  Future<List<TaskModel>> getPendingTasks() async {
-    final rows = await (select(tasks)..where((t) => t.pendingSync.equals(true))).get();
-    return rows.map(_mapTaskToModel).toList();
+  Future<List<PlateModel>> getPendingPlates() async {
+    final rows = await (select(plates)..where((t) => t.pendingSync.equals(true))).get();
+    return rows.map(_mapPlateToModel).toList();
   }
 
   Future<void> markAsSynced(int id) async {
-    await (update(tasks)..where((t) => t.id.equals(id))).write(
-      const TasksCompanion(
+    await (update(plates)..where((t) => t.id.equals(id))).write(
+      const PlatesCompanion(
         pendingSync: Value(false),
       ),
     );
   }
 
-  Future<void> upsertFromRemote(TaskModel task) async {
-    if (task.id == null) return;
+  Future<void> upsertFromRemote(PlateModel plate) async {
+    if (plate.id == null) return;
 
-    await into(tasks).insertOnConflictUpdate(
-      TasksCompanion(
-        id: Value(task.id!),
-        title: Value(task.title),
-        description: Value(task.description),
-        completed: Value(task.completed),
-        updatedAt: Value(task.updatedAt),
+    await into(plates).insertOnConflictUpdate(
+      PlatesCompanion(
+        id: Value(plate.id!),
+        plate: Value(plate.plate),
+        description: Value(plate.description),
+        completed: Value(plate.completed),
+        updatedAt: Value(plate.updatedAt),
         pendingSync: const Value(false),
       ),
     );

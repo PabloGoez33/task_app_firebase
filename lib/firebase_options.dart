@@ -50,19 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAXiou5tGXdzbfNFR1eia-RyYH3nO_UEiU',
-    appId: '1:71572666240:web:d42a1173a83186708db365',
-    messagingSenderId: '71572666240',
-    projectId: 't1xg0-flutter',
-    authDomain: 't1xg0-flutter.firebaseapp.com',
-    storageBucket: 't1xg0-flutter.firebasestorage.app',
+    apiKey: 'AIzaSyAEJ9h8VCjNDtyCeOEOvRmev4dykWSRCFY',
+    appId: '1:628901640335:web:f3a0910a0d0fa87b1058fa',
+    messagingSenderId: '628901640335',
+    projectId: 'luis-pablo-goez-db',
+    authDomain: 'luis-pablo-goez-db.firebaseapp.com',
+    storageBucket: 'luis-pablo-goez-db.firebasestorage.app',
+    measurementId: 'G-QW504ZTXTN',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAwRlKx3RjGj227yEcbF5jWiMJ_V56X3pI',
-    appId: '1:71572666240:android:48cbd89e3ed803128db365',
-    messagingSenderId: '71572666240',
-    projectId: 't1xg0-flutter',
-    storageBucket: 't1xg0-flutter.firebasestorage.app',
+    apiKey: 'AIzaSyASXkSdjd-Xca0U2sBVRFgnYO82KIBWKeA',
+    appId: '1:628901640335:android:25f1d1a306381bfd1058fa',
+    messagingSenderId: '628901640335',
+    projectId: 'luis-pablo-goez-db',
+    storageBucket: 'luis-pablo-goez-db.firebasestorage.app',
   );
+
 }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../models/task_model.dart';
+import '../models/plate_model.dart';
 
-class TaskTile extends StatelessWidget {
-  final TaskModel task;
+class PlateTile extends StatelessWidget {
+  final PlateModel plate;
   final VoidCallback onToggle;
 
-  const TaskTile({
+  const PlateTile({
     super.key,
-    required this.task,
+    required this.plate,
     required this.onToggle,
   });
 
@@ -17,28 +17,34 @@ class TaskTile extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: Checkbox(
-          value: task.completed,
-          onChanged: (_) => onToggle(),
+          value: plate.completed,
+          onChanged: plate.completed ? null : (_) => onToggle(),
         ),
         title: Text(
-          task.title,
+          plate.plate,
           style: TextStyle(
-            decoration: task.completed ? TextDecoration.lineThrough : null,
+            decoration: plate.completed ? TextDecoration.lineThrough : null,
           ),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(task.description),
+            Text(
+              plate.description,
+              style: TextStyle(
+                fontStyle: plate.completed ? FontStyle.italic : FontStyle.normal,
+                color: plate.completed ? Colors.grey : null,
+              ),
+            ),
             const SizedBox(height: 6),
             Row(
               children: [
                 Text(
-                  'Actualizada: ${task.updatedAt.toLocal()}',
+                  'Actualizada: ${plate.updatedAt.toLocal()}',
                   style: const TextStyle(fontSize: 12),
                 ),
                 const SizedBox(width: 8),
-                if (task.pendingSync)
+                if (plate.pendingSync)
                   const Chip(
                     label: Text('Sync pendiente'),
                   ),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'data/app_database.dart';
 import 'firebase_options.dart';
-import 'pages/tasks_page.dart';
-import 'services/task_remote_service.dart';
-import 'services/task_repository.dart';
+import 'pages/plates_page.dart';
+import 'services/plate_remote_service.dart';
+import 'services/plate_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +15,8 @@ Future<void> main() async {
   );
 
   final database = AppDatabase();
-  final remoteService = TaskRemoteService();
-  final repository = TaskRepository(
+  final remoteService = PlateRemoteService();
+  final repository = PlateRepository(
     localDb: database,
     remoteService: remoteService,
   );
@@ -25,7 +25,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final TaskRepository repository;
+  final PlateRepository repository;
 
   const MyApp({
     super.key,
@@ -36,8 +36,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Task App Firebase',
-      home: TasksPage(repository: repository),
+      title: 'Plate App Firebase',
+      home: PlatesPage(repository: repository),
     );
   }
 }

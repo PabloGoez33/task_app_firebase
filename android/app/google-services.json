@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "71572666240",
-    "project_id": "t1xg0-flutter",
-    "storage_bucket": "t1xg0-flutter.firebasestorage.app"
+    "project_number": "628901640335",
+    "project_id": "luis-pablo-goez-db",
+    "storage_bucket": "luis-pablo-goez-db.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:71572666240:android:48cbd89e3ed803128db365",
+        "mobilesdk_app_id": "1:628901640335:android:25f1d1a306381bfd1058fa",
         "android_client_info": {
           "package_name": "com.example.task_app_firebase"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAwRlKx3RjGj227yEcbF5jWiMJ_V56X3pI"
+          "current_key": "AIzaSyASXkSdjd-Xca0U2sBVRFgnYO82KIBWKeA"
         }
       ],
       "services": {

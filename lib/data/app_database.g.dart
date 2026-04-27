@@ -3,11 +3,11 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
+class $PlatesTable extends Plates with TableInfo<$PlatesTable, Plate> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TasksTable(this.attachedDatabase, [this._alias]);
+  $PlatesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -21,10 +21,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
-  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  static const VerificationMeta _plateMeta = const VerificationMeta('plate');
   @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-    'title',
+  late final GeneratedColumn<String> plate = GeneratedColumn<String>(
+    'plate',
     aliasedName,
     false,
     type: DriftSqlType.string,
@@ -85,7 +85,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   @override
   List<GeneratedColumn> get $columns => [
     id,
-    title,
+    plate,
     description,
     completed,
     updatedAt,
@@ -95,10 +95,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'tasks';
+  static const String $name = 'plates';
   @override
   VerificationContext validateIntegrity(
-    Insertable<Task> instance, {
+    Insertable<Plate> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -106,13 +106,13 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('title')) {
+    if (data.containsKey('plate')) {
       context.handle(
-        _titleMeta,
-        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+        _plateMeta,
+        plate.isAcceptableOrUnknown(data['plate']!, _plateMeta),
       );
     } else if (isInserting) {
-      context.missing(_titleMeta);
+      context.missing(_plateMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -154,16 +154,16 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Task map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Plate map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Task(
+    return Plate(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      title: attachedDatabase.typeMapping.read(
+      plate: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}title'],
+        data['${effectivePrefix}plate'],
       )!,
       description: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -185,21 +185,21 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   }
 
   @override
-  $TasksTable createAlias(String alias) {
-    return $TasksTable(attachedDatabase, alias);
+  $PlatesTable createAlias(String alias) {
+    return $PlatesTable(attachedDatabase, alias);
   }
 }
 
-class Task extends DataClass implements Insertable<Task> {
+class Plate extends DataClass implements Insertable<Plate> {
   final int id;
-  final String title;
+  final String plate;
   final String description;
   final bool completed;
   final DateTime updatedAt;
   final bool pendingSync;
-  const Task({
+  const Plate({
     required this.id,
-    required this.title,
+    required this.plate,
     required this.description,
     required this.completed,
     required this.updatedAt,
@@ -209,7 +209,7 @@ class Task extends DataClass implements Insertable<Task> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['title'] = Variable<String>(title);
+    map['plate'] = Variable<String>(plate);
     map['description'] = Variable<String>(description);
     map['completed'] = Variable<bool>(completed);
     map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -217,10 +217,10 @@ class Task extends DataClass implements Insertable<Task> {
     return map;
   }
 
-  TasksCompanion toCompanion(bool nullToAbsent) {
-    return TasksCompanion(
+  PlatesCompanion toCompanion(bool nullToAbsent) {
+    return PlatesCompanion(
       id: Value(id),
-      title: Value(title),
+      plate: Value(plate),
       description: Value(description),
       completed: Value(completed),
       updatedAt: Value(updatedAt),
@@ -228,14 +228,14 @@ class Task extends DataClass implements Insertable<Task> {
     );
   }
 
-  factory Task.fromJson(
+  factory Plate.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Task(
+    return Plate(
       id: serializer.fromJson<int>(json['id']),
-      title: serializer.fromJson<String>(json['title']),
+      plate: serializer.fromJson<String>(json['plate']),
       description: serializer.fromJson<String>(json['description']),
       completed: serializer.fromJson<bool>(json['completed']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
@@ -247,7 +247,7 @@ class Task extends DataClass implements Insertable<Task> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'title': serializer.toJson<String>(title),
+      'plate': serializer.toJson<String>(plate),
       'description': serializer.toJson<String>(description),
       'completed': serializer.toJson<bool>(completed),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
@@ -255,25 +255,25 @@ class Task extends DataClass implements Insertable<Task> {
     };
   }
 
-  Task copyWith({
+  Plate copyWith({
     int? id,
-    String? title,
+    String? plate,
     String? description,
     bool? completed,
     DateTime? updatedAt,
     bool? pendingSync,
-  }) => Task(
+  }) => Plate(
     id: id ?? this.id,
-    title: title ?? this.title,
+    plate: plate ?? this.plate,
     description: description ?? this.description,
     completed: completed ?? this.completed,
     updatedAt: updatedAt ?? this.updatedAt,
     pendingSync: pendingSync ?? this.pendingSync,
   );
-  Task copyWithCompanion(TasksCompanion data) {
-    return Task(
+  Plate copyWithCompanion(PlatesCompanion data) {
+    return Plate(
       id: data.id.present ? data.id.value : this.id,
-      title: data.title.present ? data.title.value : this.title,
+      plate: data.plate.present ? data.plate.value : this.plate,
       description: data.description.present
           ? data.description.value
           : this.description,
@@ -287,9 +287,9 @@ class Task extends DataClass implements Insertable<Task> {
 
   @override
   String toString() {
-    return (StringBuffer('Task(')
+    return (StringBuffer('Plate(')
           ..write('id: $id, ')
-          ..write('title: $title, ')
+          ..write('plate: $plate, ')
           ..write('description: $description, ')
           ..write('completed: $completed, ')
           ..write('updatedAt: $updatedAt, ')
@@ -300,47 +300,47 @@ class Task extends DataClass implements Insertable<Task> {
 
   @override
   int get hashCode =>
-      Object.hash(id, title, description, completed, updatedAt, pendingSync);
+      Object.hash(id, plate, description, completed, updatedAt, pendingSync);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Task &&
+      (other is Plate &&
           other.id == this.id &&
-          other.title == this.title &&
+          other.plate == this.plate &&
           other.description == this.description &&
           other.completed == this.completed &&
           other.updatedAt == this.updatedAt &&
           other.pendingSync == this.pendingSync);
 }
 
-class TasksCompanion extends UpdateCompanion<Task> {
+class PlatesCompanion extends UpdateCompanion<Plate> {
   final Value<int> id;
-  final Value<String> title;
+  final Value<String> plate;
   final Value<String> description;
   final Value<bool> completed;
   final Value<DateTime> updatedAt;
   final Value<bool> pendingSync;
-  const TasksCompanion({
+  const PlatesCompanion({
     this.id = const Value.absent(),
-    this.title = const Value.absent(),
+    this.plate = const Value.absent(),
     this.description = const Value.absent(),
     this.completed = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.pendingSync = const Value.absent(),
   });
-  TasksCompanion.insert({
+  PlatesCompanion.insert({
     this.id = const Value.absent(),
-    required String title,
+    required String plate,
     required String description,
     this.completed = const Value.absent(),
     required DateTime updatedAt,
     this.pendingSync = const Value.absent(),
-  }) : title = Value(title),
+  }) : plate = Value(plate),
        description = Value(description),
        updatedAt = Value(updatedAt);
-  static Insertable<Task> custom({
+  static Insertable<Plate> custom({
     Expression<int>? id,
-    Expression<String>? title,
+    Expression<String>? plate,
     Expression<String>? description,
     Expression<bool>? completed,
     Expression<DateTime>? updatedAt,
@@ -348,7 +348,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (title != null) 'title': title,
+      if (plate != null) 'plate': plate,
       if (description != null) 'description': description,
       if (completed != null) 'completed': completed,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -356,17 +356,17 @@ class TasksCompanion extends UpdateCompanion<Task> {
     });
   }
 
-  TasksCompanion copyWith({
+  PlatesCompanion copyWith({
     Value<int>? id,
-    Value<String>? title,
+    Value<String>? plate,
     Value<String>? description,
     Value<bool>? completed,
     Value<DateTime>? updatedAt,
     Value<bool>? pendingSync,
   }) {
-    return TasksCompanion(
+    return PlatesCompanion(
       id: id ?? this.id,
-      title: title ?? this.title,
+      plate: plate ?? this.plate,
       description: description ?? this.description,
       completed: completed ?? this.completed,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -380,8 +380,8 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (title.present) {
-      map['title'] = Variable<String>(title.value);
+    if (plate.present) {
+      map['plate'] = Variable<String>(plate.value);
     }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
@@ -400,9 +400,9 @@ class TasksCompanion extends UpdateCompanion<Task> {
 
   @override
   String toString() {
-    return (StringBuffer('TasksCompanion(')
+    return (StringBuffer('PlatesCompanion(')
           ..write('id: $id, ')
-          ..write('title: $title, ')
+          ..write('plate: $plate, ')
           ..write('description: $description, ')
           ..write('completed: $completed, ')
           ..write('updatedAt: $updatedAt, ')
@@ -415,35 +415,36 @@ class TasksCompanion extends UpdateCompanion<Task> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $TasksTable tasks = $TasksTable(this);
+  late final $PlatesTable plates = $PlatesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [tasks];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [plates];
 }
 
-typedef $$TasksTableCreateCompanionBuilder =
-    TasksCompanion Function({
+typedef $$PlatesTableCreateCompanionBuilder =
+    PlatesCompanion Function({
       Value<int> id,
-      required String title,
+      required String plate,
       required String description,
       Value<bool> completed,
       required DateTime updatedAt,
       Value<bool> pendingSync,
     });
-typedef $$TasksTableUpdateCompanionBuilder =
-    TasksCompanion Function({
+typedef $$PlatesTableUpdateCompanionBuilder =
+    PlatesCompanion Function({
       Value<int> id,
-      Value<String> title,
+      Value<String> plate,
       Value<String> description,
       Value<bool> completed,
       Value<DateTime> updatedAt,
       Value<bool> pendingSync,
     });
 
-class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
-  $$TasksTableFilterComposer({
+class $$PlatesTableFilterComposer
+    extends Composer<_$AppDatabase, $PlatesTable> {
+  $$PlatesTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -455,8 +456,8 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get title => $composableBuilder(
-    column: $table.title,
+  ColumnFilters<String> get plate => $composableBuilder(
+    column: $table.plate,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -481,9 +482,9 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
   );
 }
 
-class $$TasksTableOrderingComposer
-    extends Composer<_$AppDatabase, $TasksTable> {
-  $$TasksTableOrderingComposer({
+class $$PlatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $PlatesTable> {
+  $$PlatesTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -495,8 +496,8 @@ class $$TasksTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get title => $composableBuilder(
-    column: $table.title,
+  ColumnOrderings<String> get plate => $composableBuilder(
+    column: $table.plate,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -521,9 +522,9 @@ class $$TasksTableOrderingComposer
   );
 }
 
-class $$TasksTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TasksTable> {
-  $$TasksTableAnnotationComposer({
+class $$PlatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PlatesTable> {
+  $$PlatesTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -533,8 +534,8 @@ class $$TasksTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => column);
+  GeneratedColumn<String> get plate =>
+      $composableBuilder(column: $table.plate, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
     column: $table.description,
@@ -553,43 +554,43 @@ class $$TasksTableAnnotationComposer
   );
 }
 
-class $$TasksTableTableManager
+class $$PlatesTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $TasksTable,
-          Task,
-          $$TasksTableFilterComposer,
-          $$TasksTableOrderingComposer,
-          $$TasksTableAnnotationComposer,
-          $$TasksTableCreateCompanionBuilder,
-          $$TasksTableUpdateCompanionBuilder,
-          (Task, BaseReferences<_$AppDatabase, $TasksTable, Task>),
-          Task,
+          $PlatesTable,
+          Plate,
+          $$PlatesTableFilterComposer,
+          $$PlatesTableOrderingComposer,
+          $$PlatesTableAnnotationComposer,
+          $$PlatesTableCreateCompanionBuilder,
+          $$PlatesTableUpdateCompanionBuilder,
+          (Plate, BaseReferences<_$AppDatabase, $PlatesTable, Plate>),
+          Plate,
           PrefetchHooks Function()
         > {
-  $$TasksTableTableManager(_$AppDatabase db, $TasksTable table)
+  $$PlatesTableTableManager(_$AppDatabase db, $PlatesTable table)
     : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$TasksTableFilterComposer($db: db, $table: table),
+              $$PlatesTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$TasksTableOrderingComposer($db: db, $table: table),
+              $$PlatesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$TasksTableAnnotationComposer($db: db, $table: table),
+              $$PlatesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<String> title = const Value.absent(),
+                Value<String> plate = const Value.absent(),
                 Value<String> description = const Value.absent(),
                 Value<bool> completed = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<bool> pendingSync = const Value.absent(),
-              }) => TasksCompanion(
+              }) => PlatesCompanion(
                 id: id,
-                title: title,
+                plate: plate,
                 description: description,
                 completed: completed,
                 updatedAt: updatedAt,
@@ -598,14 +599,14 @@ class $$TasksTableTableManager
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required String title,
+                required String plate,
                 required String description,
                 Value<bool> completed = const Value.absent(),
                 required DateTime updatedAt,
                 Value<bool> pendingSync = const Value.absent(),
-              }) => TasksCompanion.insert(
+              }) => PlatesCompanion.insert(
                 id: id,
-                title: title,
+                plate: plate,
                 description: description,
                 completed: completed,
                 updatedAt: updatedAt,
@@ -619,24 +620,24 @@ class $$TasksTableTableManager
       );
 }
 
-typedef $$TasksTableProcessedTableManager =
+typedef $$PlatesTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $TasksTable,
-      Task,
-      $$TasksTableFilterComposer,
-      $$TasksTableOrderingComposer,
-      $$TasksTableAnnotationComposer,
-      $$TasksTableCreateCompanionBuilder,
-      $$TasksTableUpdateCompanionBuilder,
-      (Task, BaseReferences<_$AppDatabase, $TasksTable, Task>),
-      Task,
+      $PlatesTable,
+      Plate,
+      $$PlatesTableFilterComposer,
+      $$PlatesTableOrderingComposer,
+      $$PlatesTableAnnotationComposer,
+      $$PlatesTableCreateCompanionBuilder,
+      $$PlatesTableUpdateCompanionBuilder,
+      (Plate, BaseReferences<_$AppDatabase, $PlatesTable, Plate>),
+      Plate,
       PrefetchHooks Function()
     >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$TasksTableTableManager get tasks =>
-      $$TasksTableTableManager(_db, _db.tasks);
+  $$PlatesTableTableManager get plates =>
+      $$PlatesTableTableManager(_db, _db.plates);
 }

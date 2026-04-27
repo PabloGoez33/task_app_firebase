@@ -1,31 +1,31 @@
-class TaskModel {
+class PlateModel {
   final int? id;
-  final String title;
+  final String plate;
   final String description;
   final bool completed;
   final DateTime updatedAt;
   final bool pendingSync;
 
-  const TaskModel({
+  const PlateModel({
     this.id,
-    required this.title,
+    required this.plate,
     required this.description,
     required this.completed,
     required this.updatedAt,
     required this.pendingSync,
   });
 
-  TaskModel copyWith({
+  PlateModel copyWith({
     int? id,
-    String? title,
+    String? plate,
     String? description,
     bool? completed,
     DateTime? updatedAt,
     bool? pendingSync,
   }) {
-    return TaskModel(
+    return PlateModel(
       id: id ?? this.id,
-      title: title ?? this.title,
+      plate: plate ?? this.plate,
       description: description ?? this.description,
       completed: completed ?? this.completed,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -35,17 +35,17 @@ class TaskModel {
 
   Map<String, dynamic> toFirestore() {
     return {
-      'title': title,
+      'plate': plate,
       'description': description,
       'completed': completed,
       'updatedAt': updatedAt.toIso8601String(),
     };
   }
 
-  factory TaskModel.fromFirestore(Map<String, dynamic> map, {required int id}) {
-    return TaskModel(
+  factory PlateModel.fromFirestore(Map<String, dynamic> map, {required int id}) {
+    return PlateModel(
       id: id,
-      title: map['title'] as String? ?? '',
+      plate: map['plate'] as String? ?? '',
       description: map['description'] as String? ?? '',
       completed: map['completed'] as bool? ?? false,
       updatedAt: DateTime.tryParse(map['updatedAt'] as String? ?? '') ?? DateTime.now(),
